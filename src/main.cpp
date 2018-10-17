@@ -10,15 +10,14 @@ int main(int argc, char** argv){
     Unit enemy;
     Unit* DeadTarget = new Unit();
 
-    //Unit::DeadTarget = DeadTarget;
+    Spell testspell("fireball", 1, 200);
 
 
     player.SetFixedTarget(&enemy);
     player.Name = "TestPlayer";
+    player.AddSpells(new Spell[1]{testspell}, 1);
 
     Simulator sim (4);
-
-    cout << "Testing name " << player << endl;
 
     sim.AddUnit(&player);
     sim.AddUnit(&enemy);

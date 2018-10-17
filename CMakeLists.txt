@@ -10,5 +10,6 @@ if (${CMAKE_SOURCE_DIR} STREQUAL ${CMAKE_BINARY_DIR})
         "\n cmake .."
     )
 endif()
+set(CMAKE_CXX_STANDARD 11)
 project(QSim)
 subdirs(src)

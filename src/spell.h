@@ -1,4 +1,7 @@
+#include <string>
+
 struct Action;
+class Unit;
 
 class Spell{
 private:
@@ -6,6 +9,9 @@ private:
     double cooldown;
     double damage;
 public:
+    std::string Name;
     Spell();
-    Action* ToAction();
+    Spell(std::string, double, double);
+    static Spell SpellFromFile(std::string);
+    Action* ToAction(Unit*, Unit*);
 };

@@ -2,6 +2,8 @@
 #include "unit.h"
 #include <list>
 
+class Unit;
+
 class Simulator{
     uint steps_pr_second;
     std::list< Unit* > units;

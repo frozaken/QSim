@@ -3,8 +3,7 @@
 #include "action.h"
 #include <list>
 #include "spell.h"
-
-using namespace std;
+#include <vector>
 
 class Spell;
 
@@ -13,16 +12,18 @@ private:
     Statframe stats;
     int is_target_fixed;
     static Unit* DeadTarget;
-    Spell* spells;
+    std::vector< Spell > spells;
 public:
     Unit* Target;
-    string Name;
+    std::string Name;
     Unit();
     //Unit(Stattemplate);
-    Unit(string);
-    friend ostream& operator << (ostream &stream, const Unit &unt);
+    Unit(std::string);
+    void AddSpells( Spell* , int);
+    void AddSpell( const Spell& );
+    friend std::ostream& operator << (std::ostream &stream, const Unit &unt);
     void ProgressTime(double currenttime);
     Action* GetAction();
     void SetFixedTarget( Unit* );
-    void PickTarget(list< Unit* >);
+    void PickTarget(std::list< Unit* >);
 }; 
