@@ -7,6 +7,11 @@ using namespace std;
 
 Unit* Unit::DeadTarget = new Unit("NoneTarget");
 
+
+void Unit::ProgressTime(double currenttime){
+
+}
+
 Unit::Unit(){
     Name = "Default Unit";
     Target = Unit::DeadTarget;
@@ -16,6 +21,11 @@ Unit::Unit(string tarname){
     Name = tarname;
     Target = Unit::DeadTarget;
 }
+
+Action* GetAction(){
+
+}
+
 
 void Unit::SetFixedTarget(Unit* tar){
     is_target_fixed = 1;
