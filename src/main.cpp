@@ -12,10 +12,11 @@ int main(int argc, char** argv){
     Unit* DeadTarget = new Unit();
 
     Spell testspell("fireball", 3, 200, SCHOOL_FIRE );
+    Spell testspell2("frostblast", 2, 300, SCHOOL_FIRE);
 
     player.SetFixedTarget(&enemy);
     player.Name = "TestPlayer";
-    player.AddSpells(new Spell[1]{testspell}, 1);
+    player.AddSpells(new Spell[2]{testspell,testspell2}, 2);
 
     Simulator sim (1);
 

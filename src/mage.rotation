@@ -1,0 +1,2 @@
+fireball if fireball.cooldown < 5
+frostbolt
