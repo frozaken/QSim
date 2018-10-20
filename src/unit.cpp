@@ -2,17 +2,19 @@
 #include <list>
 #include <stdio.h>
 #include <iostream>
+#include <vector>
+#include "action.h"
 
 using namespace std;
 
 Unit* Unit::DeadTarget = new Unit("NoneTarget");
 
 
-void Unit::ProgressTime(double currenttime){
-
+void Unit::ProgressTime(double delta){
+	for(std::vector<Spell>::iterator it = spells.begin(); it != spells.end(); ++it){
+		it->RegisterTimeDelta(delta);
+	}
 }
-
-
 
 
 Unit::Unit(){
@@ -26,10 +28,28 @@ Unit::Unit(string tarname){
     Target = Unit::DeadTarget;
 }
 
-Action* Unit::GetAction(){
-    for(int i = 0; i < this->spells.size(); ++i){
-        cout << this->spells[i].Name << endl;
-    }
+Spell* Unit::GetSpellToCast(){
+	for (std::vector< Spell >::iterator it = spells.begin(); it != spells.end(); ++it){
+		if(it->IsCastable()){
+			return &(*it);
+		}
+	}
+
+	return nullptr;
+}
+
+list< Action > Unit::GetActions(){
+
+	list< Action > toret;
+
+	Spell* tocast = this->GetSpellToCast();
+
+	if(tocast != nullptr){
+		tocast->Use();
+		toret.push_back(*tocast->ToAction(this,this->Target));
+	}
+
+	return toret;
 }
 
 void Unit::SetFixedTarget(Unit* tar){
@@ -55,6 +75,7 @@ void Unit::PickTarget(list< Unit* > units){
 
 ostream& operator << (ostream &stream, const Unit &unt){
     stream << unt.Name;
+	return stream;
 }
 
 /*
@@ -98,7 +119,7 @@ float Unit::MeleeSpellMissChance(Unit* pVictim, WeaponAttackType attType, int sk
 	float missChance = 100.0f - hitChance;
 
 	// Bonuses from attacker aura and ratings
-	if (attType == RANGED_ATTACK)
+	if (attType == WeaponAttackType::RANGED_ATTACK)
 	{
 		missChance -= stats.hit_ranged;
 	}

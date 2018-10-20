@@ -1,17 +1,17 @@
+#include <list>
+#include <string>
+
 class Unit;
-struct Aura;
-class Spell;
 
 struct Action{
 public:
     
     Action();
-    Action(Spell);
+    
+    std::string Name;
 
     Unit* Target;
     Unit* Caster;
 
     int Damage;
-    Aura** auras;
-    int AuraId;
 };

@@ -1,21 +1,11 @@
 #include "statframe.h"
 #include <string>
-#include "action.h"
 #include <list>
 #include "spell.h"
 #include <vector>
+#include "shareddefines.h"
 
 class Spell;
-
-enum WeaponAttackType
-{
-	///Main-hand weapon
-	BASE_ATTACK = 0,
-	///Off-hand weapon
-	OFF_ATTACK = 1,
-	///Ranged weapon, bow/wand etc.
-	RANGED_ATTACK = 2
-};
 
 class Unit{
 private:
@@ -23,6 +13,8 @@ private:
     int is_target_fixed;
     static Unit* DeadTarget;
     std::vector< Spell > spells;
+    Spell* GetSpellToCast();
+
 public:
     Unit* Target;
     std::string Name;
@@ -33,7 +25,7 @@ public:
     void AddSpell( const Spell& );
     friend std::ostream& operator << (std::ostream &stream, const Unit &unt);
     void ProgressTime(double currenttime);
-    Action* GetAction();
+    std::list< Action > GetActions();
     void SetFixedTarget( Unit* );
     void PickTarget(std::list< Unit* >);
 	float MeleeSpellMissChance(Unit* pVictim, WeaponAttackType attType, int skillDiff, Spell const* spell);
