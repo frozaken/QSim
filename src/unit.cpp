@@ -18,6 +18,7 @@ void Unit::ProgressTime(double currenttime){
 Unit::Unit(){
     Name = "Default Unit";
     Target = Unit::DeadTarget;
+	Statframe* stats = new Statframe();
 }
 
 Unit::Unit(string tarname){
@@ -54,4 +55,66 @@ void Unit::PickTarget(list< Unit* > units){
 
 ostream& operator << (ostream &stream, const Unit &unt){
     stream << unt.Name;
+}
+
+/*
+	From MaNGOS:
+	pVictim = The victim of the spell
+	attType = Main hand, off hand or ranged
+	skillDiff = attacker weapon skill - pVictim's defensive skill value
+	Spell = the spell to check
+*/
+float Unit::MeleeSpellMissChance(Unit* pVictim, WeaponAttackType attType, int skillDiff, Spell const* spell)
+{
+	// Calculate hit chance (more correct for chance mod)
+	float hitChance = 0.0f;
+
+	if (skillDiff < -10)
+	{
+		hitChance = 93.0f + (skillDiff + 10) * 0.4f; // 7% base chance to miss for big skill diff (%6 in 3.x)
+	}
+	else
+	{
+		hitChance = 95.0f + skillDiff * 0.1f;
+	}
+
+	// Hit chance depends from victim auras -- NYI
+	/*if (attType == RANGED_ATTACK)
+	{
+		hitChance += pVictim->GetTotalAuraModifier(SPELL_AURA_MOD_ATTACKER_RANGED_HIT_CHANCE);
+	}
+	else
+	{
+		hitChance += pVictim->GetTotalAuraModifier(SPELL_AURA_MOD_ATTACKER_MELEE_HIT_CHANCE);
+	}*/
+
+	// Spellmod from SPELLMOD_RESIST_MISS_CHANCE --- NYI!
+	/*if (Player* modOwner = GetSpellModOwner())
+	{
+		modOwner->ApplySpellMod(spell->Id, SPELLMOD_RESIST_MISS_CHANCE, hitChance);
+	}*/
+
+	// Miss = 100 - hit
+	float missChance = 100.0f - hitChance;
+
+	// Bonuses from attacker aura and ratings
+	if (attType == RANGED_ATTACK)
+	{
+		missChance -= stats.hit_ranged;
+	}
+	else
+	{
+		missChance -= stats.hit_melee;
+	}
+
+	// Limit miss chance from 0 to 60%
+	if (missChance < 0.0f)
+	{
+		return 0.0f;
+	}
+	if (missChance > 60.0f)
+	{
+		return 60.0f;
+	}
+	return missChance;
 }

@@ -7,6 +7,16 @@
 
 class Spell;
 
+enum WeaponAttackType
+{
+	///Main-hand weapon
+	BASE_ATTACK = 0,
+	///Off-hand weapon
+	OFF_ATTACK = 1,
+	///Ranged weapon, bow/wand etc.
+	RANGED_ATTACK = 2
+};
+
 class Unit{
 private:
     Statframe stats;
@@ -26,4 +36,5 @@ public:
     Action* GetAction();
     void SetFixedTarget( Unit* );
     void PickTarget(std::list< Unit* >);
+	float MeleeSpellMissChance(Unit* pVictim, WeaponAttackType attType, int skillDiff, Spell const* spell);
 }; 
