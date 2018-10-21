@@ -9,5 +9,5 @@ Rotation::Rotation(list<Spell> _spells){
 }
 
 void Rotation::GenerateStatementsFromString(string script){
-
+    
 }

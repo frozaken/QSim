@@ -8,6 +8,6 @@ private:
 
 public:
     RotationalStatement(Spell);
-    void AddCooldownConditional(int refspell, int cd, Conditional cond);
+    void AddCooldownConditional(const int& refspell, const int& cd, const Conditional& cond);
     int EvaluateCondition();
 };

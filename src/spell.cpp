@@ -25,11 +25,11 @@ int Spell::IsCastable(){
     return this->time_to_next <= 0.0;
 }
 
-Action* Spell::ToAction( Unit* caster, Unit* target){
+Action* Spell::ToAction( Unit& caster, Unit& target){
     Action* retact = new Action();
 
-    retact->Target = target;
-    retact->Caster = caster;
+    retact->Target = &target;
+    retact->Caster = &caster;
 
     retact->Damage = this->damage;
 
@@ -39,7 +39,7 @@ Action* Spell::ToAction( Unit* caster, Unit* target){
 }
 
 
-Spell::Spell(string name, double cd, double dmg, MagicSchool _school){
+Spell::Spell(const string& name, double cd, double dmg, MagicSchool _school){
     this->Name = name;
     this->damage = dmg;
     this->cooldown = cd;

@@ -2,6 +2,8 @@
 #include <string>
 
 class Unit;
+struct Aura;
+class Spell;
 
 struct Action{
 public:

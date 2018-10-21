@@ -46,7 +46,7 @@ list< Action > Unit::GetActions(){
 
 	if(tocast != nullptr){
 		tocast->Use();
-		toret.push_back(*tocast->ToAction(this,this->Target));
+		toret.push_back(*tocast->ToAction(*this,*this->Target));
 	}
 
 	return toret;
